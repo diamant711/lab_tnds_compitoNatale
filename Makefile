@@ -7,13 +7,13 @@ ROOT_INCS:=$(shell root-config --cflags) #INCS memorizes the path to ROOT's
 
 PRJ_DIR := $(PWD)
 
-X_FILES := tnds_analysis tnds_net_parser
+X_FILES := tnds-analysis tnds-net-parser
 
 LIB := UDPframebroadcast
 
 OBJECTS_DIR := $(PRJ_DIR)/obj
-OBJECTS_analysis := main_tnds_analysis.o
-OBJECTS_net_parser := main_tnds_net_parser.o
+OBJECTS_analysis := main_tnds-analysis.o
+OBJECTS_net_parser := main_tnds-net-parser.o
 OBJECTS_lib := UDPframebroadcast.o
 OBJECTS := $(OBJECTS_analysis) $(OBJECTS_net_parser) $(OBJECTS_lib)
 
@@ -23,13 +23,13 @@ PROFILING := -pg -O0
 
 all : $(LIB) $(X_FILES) ;
 
-tnds_analysis : WORKDIR = $(PRJ_DIR)/src/tnds_analysis
-tnds_analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
-	$(LINK.o) -o $@ $^ $(ROOT_LIBS) -lASImage
+tnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
+tnds-analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
+	$(LINK.cpp) -o $@ $^ $(ROOT_LIBS) -lASImage
 
-tnds_net_parser : WORKDIR = $(PRJ_DIR)/src/tnds_net_parser
-tnds_net_parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) ; \
-	$(LINK.o) -o $@ $^
+tnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
+tnds-net-parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) ; \
+	$(LINK.cpp) -o $@ $^
 
 UDPframebroadcast : WORKDIR = $(PRJ_DIR)/lib/UDPframebroadcast
 UDPframebroadcast : $(OBJECTS_DIR)/$(OBJECTS_lib) ;
