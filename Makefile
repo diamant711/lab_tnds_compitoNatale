@@ -25,17 +25,17 @@ all : $(LIB) $(X_FILES) ;
 
 tnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
 tnds-analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
-	$(LINK.cpp) -o $@ $^ $(ROOT_LIBS) -lASImage
+	$(LINK.cpp) -o $@ $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^
 
 tnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
 tnds-net-parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) ; \
-	$(LINK.cpp) -o $@ $^
+	$(LINK.cpp) -o $@ -L$(OBJECTS_DIR) $^
 
 UDPframebroadcast : WORKDIR = $(PRJ_DIR)/lib/UDPframebroadcast
 UDPframebroadcast : $(OBJECTS_DIR)/$(OBJECTS_lib) ;
 
 $(OBJECTS_DIR)/%.o : ; \
-	$(COMPILE.cpp) -o $(OBJECTS_DIR)/$*.o $(ROOT_INCS) $(WORKDIR)/$*.cpp
+	$(COMPILE.cpp) -o $(OBJECTS_DIR)/$*.o $(ROOT_INCS) -I$(PRJ_DIR)/lib $(WORKDIR)/$*.cpp
 
 debug : CXXFLAGS = $(CXXFLAGS) $(DEBUG)
 debug : all ;
