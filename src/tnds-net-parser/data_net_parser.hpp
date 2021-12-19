@@ -7,6 +7,8 @@
 
 #include <cstdio> //sprintf()
 
+#define max_char_file_name 20
+
 class data_net_parser : UDPframeReceiver {
   public:
     data_net_parser();
@@ -18,7 +20,6 @@ class data_net_parser : UDPframeReceiver {
     //expose some internal state for logging?
 
   private:
-    const int max_char_file_name = 20;
     char m_file_path[max_char_file_name];
     std::ofstream m_current_file;
     int m_count_written_file = 0;
@@ -48,9 +49,7 @@ bool data_net_parser::current_file_full(){
     return false;
   else {
     m_current_file.close();
-    char tmp[max_char_file_name];
-    ::sprintf(tmp, "data/%d.fdt", m_count_written_file);
-    m_file_path = tmp;
+    ::sprintf(m_file_path, "data/%d.fdt", m_count_written_file);
     m_current_file.open(m_file_path);
     return true;
   }
