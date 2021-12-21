@@ -13,11 +13,11 @@ int main(int argc, char *argv[]) {
   
   unsigned long i = 0, j = 0;
   while (1) {
-    if (acc_net_parser.recive_and_save_frame){
+    if (acc_net_parser.receive_and_save_frame()){
       ++i;
       std::cout << "Accelerometer frame saved = " << i << std::endl;
     }
-    if (acc_net_parser.recive_and_save_frame){
+    if (acc_net_parser.receive_and_save_frame()){
       ++j;
       std::cout << "Camera frame saved = " << j << std::endl;
     }

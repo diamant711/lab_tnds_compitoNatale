@@ -72,6 +72,7 @@ bool data_net_parser::receive_and_save_frame() {
   if (m_udp.good()) {
     file_check();
     m_udp.receive_frame(m_tmp_tsec, m_tmp_tusec, &m_tmp_frame, m_tmp_width, m_tmp_height);
+    /*
     switch(m_data_type) {
       case ACCELEROMETER:
         { 
@@ -90,6 +91,11 @@ bool data_net_parser::receive_and_save_frame() {
         
       break;
     }
+    */
+    m_current_file.write(reinterpret_cast<char *>(m_tmp_tsec), sizeof(m_tmp_tsec));
+    m_current_file.write(reinterpret_cast<char *>(m_tmp_tusec), sizeof(m_tmp_tusec));
+    m_current_file.write(reinterpret_cast<char *>(m_tmp_width), sizeof(m_tmp_width));
+    m_current_file.write(reinterpret_cast<char *>(m_tmp_height), sizeof(m_tmp_height));
     m_current_file.write(reinterpret_cast<char *>(m_tmp_frame), sizeof(m_tmp_frame));
     ++m_count_written_frame_x_current_file;
     return true;
