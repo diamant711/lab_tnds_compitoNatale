@@ -91,6 +91,7 @@ bool data_net_parser::receive_and_save_frame() {
       break;
     }
     m_current_file.write(reinterpret_cast<char *>(m_tmp_frame), sizeof(m_tmp_frame));
+    ++m_count_written_frame_x_current_file;
     return true;
   } else {
     return false;
