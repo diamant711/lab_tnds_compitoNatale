@@ -7,7 +7,7 @@ ROOT_INCS:=$(shell root-config --cflags) #INCS memorizes the path to ROOT's
 
 PRJ_DIR := $(PWD)
 
-X_FILES := tnds-analysis tnds-net-parser
+X_FILES := labtnds-analysis labtnds-net-parser
 
 LIB := UDPframebroadcast
 

@@ -30,5 +30,5 @@
 *.exe
 *.out
 *.app
-tnds-analysis
-tnds-net-parser
+labtnds-analysis
+labtnds-net-parser
