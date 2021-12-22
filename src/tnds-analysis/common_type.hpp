@@ -2,13 +2,12 @@
 #define COMMON_TYPE
 
 #include <vector>
+#include <memory>
 
-//-----------------------------------------------------------------------------
-//--- acc_data ----------------------------------------------------------------
-//-----------------------------------------------------------------------------
-
-class acc_data {
+class data {
   public:
+    enum data_type_t {ACCELEROMETER = 'a', CAMERA = 'i'};
+
     typedef struct frame_data {
       unsigned int tsec;
       unsigned int tusec;
@@ -17,94 +16,74 @@ class acc_data {
       std::vector<unsigned int> frame;
     } frame_data;
 
-    typedef struct analized {
+    typedef struct acc_analized {
       unsigned int Ax;
       unsigned int Ay;
       unsigned int Az;
       unsigned int T_C;
       unsigned int T_s;
     } analized;
- 
-    typedef std::vector<frame_data> raw_acc_cnt;
-    typedef std::vector<analized> cooked_acc_cnt;
-
-    acc_data();
-    ~acc_data();
     
-    raw_acc_cnt& GetRawData();
-    cooked_acc_cnt& GetCookedData();
-
-  private:
-    // RAW
-    raw_acc_cnt m_raw;
-    
-    // COOKED
-    cooked_acc_cnt m_cooked;
-};
-
-acc_data::acc_data() {}
-
-acc_data::~acc_data() {}
-
-acc_data::raw_acc_cnt& acc_data::GetRawData() {
-  return m_raw;
-}
-
-acc_data::cooked_acc_cnt& acc_data::GetCookedData() {
-  return m_cooked;
-}
-
-//-----------------------------------------------------------------------------
-//--- cam_data ----------------------------------------------------------------
-//-----------------------------------------------------------------------------
-
-class cam_data {
-  public:
-    typedef struct frame_data {
-      unsigned int tsec;
-      unsigned int tusec;
-      unsigned int width;
-      unsigned int height;
-      std::vector<unsigned int> frame;
-    } frame_data;
- 
     typedef struct Point {
       unsigned int x;
       unsigned int y;
     } Point;
     
-    typedef struct analized {
+    typedef struct cam_analized {
       Point center;
       unsigned int T_s;
     } analized;
+    
+    typedef std::vector<frame_data> raw_cnt;
+    typedef std::vector<acc_analized> cooked_acc_cnt;
+    typedef std::vector<cam_analized> cooked_cam_cnt;
 
-    typedef std::vector<frame_data> raw_cam_cnt;
-    typedef std::vector<analized> cooked_cam_cnt;
-
-    cam_data();
-    ~cam_data();
-
-    raw_cam_cnt& GetRawData();
+    data(data_type_t);
+    ~data();
+    
+    raw_cnt& GetRawData();
+    cooked_acc_cnt& GetCookedData();
     cooked_cam_cnt& GetCookedData();
 
   private:
-    //RAW
-    raw_cam_cnt m_raw;
+    data_type_t data_type;
+
+    // RAW
+    raw_cnt m_raw;
     
     // COOKED
-    cooked_cam_cnt m_cooked;
+    cooked_acc_cnt m_acc_cooked;
+    cooked_cam_cnt m_cam_cooked;
 };
 
-cam_data::cam_data() {}
+data::acc_data(data_type_t type) : data_type(type) {}
 
-cam_data::~cam_data() {}
+data::~acc_data() {}
 
-cam_data::raw_cam_cnt& cam_data::GetRawData() {
+data::raw_cnt& data::GetRawData() {
   return m_raw;
 }
 
-cam_data::cooked_cam_cnt& cam_data::GetCookedData() {
-  return m_cooked;
+data::cooked_acc_cnt& data::GetCookedData() {
+  if(m_data_type == ACCELEROMETER)
+    return m_acc_cooked;
+  else {
+    std::cerr << "Tryed calling data::GetCoockedData() for "
+                 " data::coocked_acc_cnt& when m_data_type is CAMERA" 
+              << std::endl;
+    exit(1);
+  }
+}
+
+data::cooked_cam_cnt& data::GetCookedData() {
+  if(m_data_type == CAMERA)
+    return m_cam_cooked;
+  else {
+    std::cerr << "Tryed calling data::GetCoockedData() for "
+                 " data::coocked_cam_cnt& when m_data_type is ACCELEROMETER" 
+              << std::endl;
+    exit(1);
+  }
 }
 
 #endif
