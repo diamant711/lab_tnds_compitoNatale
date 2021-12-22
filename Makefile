@@ -23,12 +23,12 @@ PROFILING := -pg -O0
 
 all : $(LIB) $(X_FILES) ;
 
-tnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
-tnds-analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) ; \
+labtnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
+labtnds-analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) ; \
 	$(LINK.cpp) -o $@ $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^
 
-tnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
-tnds-net-parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
+labtnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
+labtnds-net-parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
 	$(LINK.cpp) -o $@ -L$(OBJECTS_DIR) $^
 
 UDPframebroadcast : WORKDIR = $(PRJ_DIR)/lib/UDPframebroadcast

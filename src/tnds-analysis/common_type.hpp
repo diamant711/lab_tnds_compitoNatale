@@ -1,4 +1,5 @@
-// public access data method
+#ifndef COMMON_TYPE
+#define COMMON_TYPE
 
 #include <vector>
 
@@ -24,8 +25,8 @@ class acc_data {
       unsigned int T_s;
     } analized;
  
-    typedef raw_acc_cnt std::vector<frame_data>;
-    typedef cooked_acc_cnt std::vector<analized>;
+    typedef std::vector<frame_data> raw_acc_cnt;
+    typedef std::vector<analized> cooked_acc_cnt;
 
     acc_data();
     ~acc_data();
@@ -45,12 +46,12 @@ acc_data::acc_data() {}
 
 acc_data::~acc_data() {}
 
-raw_acc_cnt& acc_data::GetRawData() {
+acc_data::raw_acc_cnt& acc_data::GetRawData() {
   return m_raw;
 }
 
-cooked_acc_cnt& acc_data::GetCookedData() {
-  return m_coocked;
+acc_data::cooked_acc_cnt& acc_data::GetCookedData() {
+  return m_cooked;
 }
 
 //-----------------------------------------------------------------------------
@@ -77,8 +78,8 @@ class cam_data {
       unsigned int T_s;
     } analized;
 
-    typedef raw_cam_cnt std::vector<frame_data>;
-    typedef cooked_cam_cnt std::vector<analized>;
+    typedef std::vector<frame_data> raw_cam_cnt;
+    typedef std::vector<analized> cooked_cam_cnt;
 
     cam_data();
     ~cam_data();
@@ -98,10 +99,12 @@ cam_data::cam_data() {}
 
 cam_data::~cam_data() {}
 
-raw_cam_cnt& cam_data::GetRawData() {
+cam_data::raw_cam_cnt& cam_data::GetRawData() {
   return m_raw;
 }
 
-cooked_cam_cnt& cam_data::GetCookedData() {
-  return m_coocked;
+cam_data::cooked_cam_cnt& cam_data::GetCookedData() {
+  return m_cooked;
 }
+
+#endif
