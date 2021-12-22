@@ -1,7 +1,5 @@
 #include "common_type.hpp"
 
-#include <unistd>
-
 #include <string>
 #include <fstream>
 
