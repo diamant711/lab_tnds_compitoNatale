@@ -65,6 +65,7 @@ void data_net_parser::file_check(){
     return;
   else {
     m_current_file.close();
+    m_count_written_frame_x_current_file = 0;
     ++m_count_written_file;
     ::sprintf(m_file_path, "data/%c/%d.fdt", m_data_type, m_count_written_file);
     m_current_file.open(m_file_path);
@@ -96,10 +97,10 @@ bool data_net_parser::receive_and_save_frame() {
       break;
     }
     */
-    m_current_file.write(reinterpret_cast<char *>(m_tmp_tsec), sizeof(m_tmp_tsec));
-    m_current_file.write(reinterpret_cast<char *>(m_tmp_tusec), sizeof(m_tmp_tusec));
-    m_current_file.write(reinterpret_cast<char *>(m_tmp_width), sizeof(m_tmp_width));
-    m_current_file.write(reinterpret_cast<char *>(m_tmp_height), sizeof(m_tmp_height));
+    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_tsec), sizeof(m_tmp_tsec));
+    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_tusec), sizeof(m_tmp_tusec));
+    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_width), sizeof(m_tmp_width));
+    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_height), sizeof(m_tmp_height));
     m_current_file.write(reinterpret_cast<char *>(m_tmp_frame), sizeof(m_tmp_frame));
     ++m_count_written_frame_x_current_file;
     return true;

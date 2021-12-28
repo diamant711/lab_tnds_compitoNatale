@@ -3,6 +3,7 @@
 //
 // Revision history:
 // 18-Nov-2009 Initial version.
+// 21-Dec-2021 Transfer frame length in bytes instead of ints.
 //
 // Description:
 // Very simple utilities to send and receive via UDP over IP(v4) multicast 
@@ -83,7 +84,8 @@ bool UDPframeSender::good()
 bool UDPframeSender::send_frame(unsigned int timestamp_sec,
                                 unsigned int timestamp_usec,
                                 const unsigned int *data, unsigned int width,
-                                                          unsigned int height)
+                                                          unsigned int height,
+                                                          unsigned int blen)
 {
   if (!m_good) return false;
   ssize_t ret;
@@ -97,6 +99,7 @@ bool UDPframeSender::send_frame(unsigned int timestamp_sec,
   mstart.timestamp_usec = timestamp_usec;
   mstart.width = width;
   mstart.height = height;
+  mstart.byte_len = blen;
   if ((ret = ::send(m_sfd, &mstart, sizeof(mstart), 0)) < static_cast<int>(sizeof(mstart)))
    {
     std::ostringstream message;
@@ -142,6 +145,7 @@ UDPframeReceiver::UDPframeReceiver(const std::string &listen_address, unsigned s
   m_good = false;
   m_data = 0;
   m_data_length = 0;
+  m_last_byte_len = 0;
 
   m_sfd = ::socket(PF_INET,SOCK_DGRAM, 0);
 
@@ -234,6 +238,7 @@ bool UDPframeReceiver::receive_frame(unsigned int &timestamp_sec,
      {
       width  = mstart.width;
       height = mstart.height;
+      m_last_byte_len = mstart.byte_len;
       timestamp_sec = mstart.timestamp_sec;
       timestamp_usec = mstart.timestamp_usec;
       start_found = true;

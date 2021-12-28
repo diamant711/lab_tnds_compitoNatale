@@ -6,7 +6,7 @@
 
 class data {
   public:
-    enum data_type_t {ACCELEROMETER = 'a', CAMERA = 'i'};
+    typedef enum data_type_t {ACCELEROMETER = 'a', CAMERA = 'i'} data_type_t;
 
     typedef struct frame_data {
       unsigned int tsec;

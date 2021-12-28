@@ -37,10 +37,10 @@ UDPframebroadcast : $(OBJECTS_DIR)/$(OBJECTS_lib) ;
 $(OBJECTS_DIR)/%.o : ; \
 	$(COMPILE.cpp) -o $(OBJECTS_DIR)/$*.o $(ROOT_INCS) -I$(PRJ_DIR)/lib $(WORKDIR)/$*.cpp
 
-debug : CXXFLAGS = $(CXXFLAGS) $(DEBUG)
+debug : CXXFLAGS := $(CXXFLAGS) $(DEBUG)
 debug : all ;
 
-profiles : CXXFLAGS = $(CXXFLAGS) $(PROFILING)
+profiles : CXXFLAGS := $(CXXFLAGS) $(PROFILING)
 profiles : all ;
 
 clean : ; \

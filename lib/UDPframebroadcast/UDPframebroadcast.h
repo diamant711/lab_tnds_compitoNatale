@@ -3,6 +3,7 @@
 //
 // Revision history:
 // 18-Nov-2009 Initial version.
+// 21-Dec-2021 Transfer frame length in bytes instead of ints.
 //
 // Description:
 // Very simple utilities to send and receive via UDP over IP(v4) multicast 
@@ -42,7 +43,8 @@ struct UDPframeStart
   uint32_t timestamp_usec;
   uint32_t width;
   uint32_t height;
-  uint32_t ballast[_UDPframebroadcast_h_MAX_MSG_LEN-5];
+  uint32_t byte_len;
+  uint32_t ballast[_UDPframebroadcast_h_MAX_MSG_LEN-6];
 };
 
 struct UDPframePacket
@@ -68,7 +70,8 @@ class UDPframeSender
     bool send_frame(unsigned int timestamp_sec,
                     unsigned int timestamp_usec,
                     const unsigned int *data, 
-                    unsigned int width, unsigned int height);
+                    unsigned int width, unsigned int height,
+                    unsigned int blen = 0);
 
     const std::string &get_error() const;
 
@@ -99,6 +102,8 @@ class UDPframeReceiver
 
     unsigned int *get_frame();
 
+    size_t get_last_byte_length() { return m_last_byte_len; } 
+
     const std::string &get_error() const;
 
   private:
@@ -109,6 +114,7 @@ class UDPframeReceiver
     unsigned int *m_data;
     unsigned int m_data_length;
     struct ip_mreq m_mreq;
+    size_t m_last_byte_len;
 };
 
 #endif /* defined _UDPframebroadcast_h_included */
