@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <cstdio> //sprintf()
+#include <cstdint>
 
 #define max_char_file_name 20
 
@@ -19,6 +20,8 @@ class data_net_parser {
     // recive, checksum, store
     bool receive_and_save_frame();
 
+    uint32_t magic_header = 0xe1e01cca;
+
     //expose some internal state for logging?
 
   private:
@@ -29,10 +32,11 @@ class data_net_parser {
     long m_count_written_frame_x_current_file = 0;
     const long m_frame_x_file = 1000;
     unsigned int *m_tmp_frame;
-    unsigned int m_tmp_width;
-    unsigned int m_tmp_height;
-    unsigned int m_tmp_tsec;
-    unsigned int m_tmp_tusec;
+    uint32_t m_tmp_width;
+    uint32_t m_tmp_height;
+    uint32_t m_tmp_bytes;
+    uint32_t m_tmp_tsec;
+    uint32_t m_tmp_tusec;
     const int m_packet_size = 11;
     data_type m_data_type;
 
@@ -77,6 +81,7 @@ bool data_net_parser::receive_and_save_frame() {
   if (m_udp.good()) {
     file_check();
     m_udp.receive_frame(m_tmp_tsec, m_tmp_tusec, &m_tmp_frame, m_tmp_width, m_tmp_height);
+    m_tmp_bytes = m_udp.get_last_byte_length();
     /*
     switch(m_data_type) {
       case ACCELEROMETER:
@@ -97,11 +102,13 @@ bool data_net_parser::receive_and_save_frame() {
       break;
     }
     */
-    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_tsec), sizeof(m_tmp_tsec));
-    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_tusec), sizeof(m_tmp_tusec));
-    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_width), sizeof(m_tmp_width));
-    //m_current_file.write(reinterpret_cast<char *>(&m_tmp_height), sizeof(m_tmp_height));
-    m_current_file.write(reinterpret_cast<char *>(m_tmp_frame), sizeof(m_tmp_frame));
+    m_current_file.write(reinterpret_cast<char *>(&magic_header), sizeof(magic_header));
+    m_current_file.write(reinterpret_cast<char *>(&m_tmp_tsec), sizeof(m_tmp_tsec));
+    m_current_file.write(reinterpret_cast<char *>(&m_tmp_tusec), sizeof(m_tmp_tusec));
+    m_current_file.write(reinterpret_cast<char *>(&m_tmp_width), sizeof(m_tmp_width));
+    m_current_file.write(reinterpret_cast<char *>(&m_tmp_height), sizeof(m_tmp_height));
+    m_current_file.write(reinterpret_cast<char *>(&m_tmp_bytes), sizeof(m_tmp_bytes));
+    m_current_file.write(reinterpret_cast<char *>(m_tmp_frame), m_tmp_width*m_tmp_height*sizeof(m_tmp_frame[0]));
     ++m_count_written_frame_x_current_file;
     return true;
   } else {

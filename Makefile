@@ -13,7 +13,9 @@ LIB := UDPframebroadcast
 
 OBJECTS_DIR := $(PRJ_DIR)/obj
 OBJECTS_analysis := main_tnds-analysis.o
+SOURCES_analysis := $(wildcard $(PRJ_DIR)/src/tnds-analysis/*.*pp)
 OBJECTS_net_parser := main_tnds-net-parser.o
+SOURCES_net_parser := $(wildcard $(PRJ_DIR)/src/tnds-net-parser/*.*pp)
 OBJECTS_lib := UDPframebroadcast.o
 OBJECTS := $(OBJECTS_analysis) $(OBJECTS_net_parser) $(OBJECTS_lib)
 
@@ -24,12 +26,12 @@ PROFILING := -pg -O0
 all : $(LIB) $(X_FILES) ;
 
 labtnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
-labtnds-analysis : $(OBJECTS_DIR)/$(OBJECTS_analysis) ; \
-	$(LINK.cpp) -o $@ $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^
+labtnds-analysis : $(SOURCES_analysis) ; \
+	$(LINK.cpp) -o $@ $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^ -I$(PRJ_DIR)/lib
 
 labtnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
-labtnds-net-parser : $(OBJECTS_DIR)/$(OBJECTS_net_parser) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
-	$(LINK.cpp) -o $@ -L$(OBJECTS_DIR) $^
+labtnds-net-parser : $(SOURCES_net_parser) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
+	$(LINK.cpp) -o $@ -L$(OBJECTS_DIR) $^ -I$(PRJ_DIR)/lib
 
 UDPframebroadcast : WORKDIR = $(PRJ_DIR)/lib/UDPframebroadcast
 UDPframebroadcast : $(OBJECTS_DIR)/$(OBJECTS_lib) ;

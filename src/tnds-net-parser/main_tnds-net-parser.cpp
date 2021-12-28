@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-  const unsigned int max_frame = 10000;
+  const unsigned int max_frame = 100;
   
   const std::string acc_addr("233.252.4.19");
   const std::string cam_addr("233.252.4.17");
