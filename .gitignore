@@ -30,5 +30,9 @@
 *.exe
 *.out
 *.app
+
 labtnds-analysis
 labtnds-net-parser
+*.tar.*
+*.fdt
+metadata
