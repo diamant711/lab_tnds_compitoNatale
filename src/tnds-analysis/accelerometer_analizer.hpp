@@ -1,5 +1,7 @@
 #include "common_type.hpp"
 
+#include <iostream>
+
 class accelerometer_analizer {
   public:
     accelerometer_analizer(data &);
@@ -11,7 +13,12 @@ class accelerometer_analizer {
     data m_data;
 };
 
-accelerometer_analizer::accelerometer_analizer(data &dat) : m_data(dat) {}
+accelerometer_analizer::accelerometer_analizer(data &dat) : m_data(dat) {
+  if(m_data.GetType() != 'a') {
+    std::cerr << "Error in analizer constructor: wrong data type" << std::endl;
+    exit(1);
+  }
+}
 
 accelerometer_analizer::~accelerometer_analizer() {}
 
