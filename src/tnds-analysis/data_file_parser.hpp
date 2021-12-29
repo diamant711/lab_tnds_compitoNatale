@@ -53,13 +53,13 @@ bool data_file_parser::fill_raw() {
                                                sizeof(magic_header));
       }
       data::frame_data tmp_frame_data;
-      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.tsec), 
+      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.tsec), \
                                              sizeof(tmp_frame_data.tsec));
-      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.tusec), 
+      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.tusec), \
                                              sizeof(tmp_frame_data.tusec));
-      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.width), 
+      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.width), \
                                              sizeof(tmp_frame_data.width));
-      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.height), 
+      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.height), \
                                              sizeof(tmp_frame_data.height));
       uint32_t bytes;
       m_current_file.read(reinterpret_cast<char *>(&bytes), sizeof(bytes));
