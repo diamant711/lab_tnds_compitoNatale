@@ -3,17 +3,18 @@
 
 #include <vector>
 #include <iostream>
+#include <cstdint>
 
 class data {
   public:
     typedef enum data_type_t {ACCELEROMETER = 'a', CAMERA = 'i'} data_type_t;
 
     typedef struct frame_data {
-      unsigned int tsec;
-      unsigned int tusec;
-      unsigned int width;
-      unsigned int height;
-      std::vector<unsigned int> frame;
+      uint32_t tsec;
+      uint32_t tusec;
+      uint32_t width;
+      uint32_t height;
+      std::vector<uint32_t> frame;
     } frame_data;
 
     typedef struct Point {
