@@ -23,8 +23,8 @@ class data {
     } Point;
     
     typedef struct analized {
-      Point pos;
-      unsigned int T_s;
+      Point point;
+      double T_s;
     } analized;
     
     typedef std::vector<frame_data> raw_cnt;
