@@ -7,7 +7,7 @@ class image_analizer {
     image_analizer(data &);
     ~image_analizer();
   
-    bool cooked();
+    bool cook();
 
   private:
     data m_data;
@@ -22,7 +22,7 @@ image_analizer::image_analizer(data &dat) : m_data(dat) {
 
 image_analizer::~image_analizer() {}
 
-bool image_analizer::cooked() {
+bool image_analizer::cook() {
   for(unsigned int i = 0; i < m_data.GetRawData().size(); ++i){
     data::analized tmp_analized;
     tmp_analized.point.x = 0;

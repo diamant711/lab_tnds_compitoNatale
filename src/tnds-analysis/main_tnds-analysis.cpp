@@ -3,6 +3,10 @@
 #include "common_type.hpp"
 #include "accelerometer_analizer.hpp"
 
+#include "TApplication.h"
+#include "TCanvas.h"
+#include "TGraph.h"
+
 int main(int argc, char *argv[]) {
   const data::data_type_t acc_data_type = data::ACCELEROMETER;
   const data::data_type_t cam_data_type = data::CAMERA;
@@ -13,9 +17,9 @@ int main(int argc, char *argv[]) {
   accelerometer_analizer acc_analizer(acc_data);
   image_analizer cam_analizer(cam_data);
   TApplication app("Results", &argc, argv);
-  TCanvas c1("c1", 800, 1200);
-  TGraph acc_graph();
-  TGraph cam_graph();
+  TCanvas c1("c1", "Results", 800, 1200);
+  TGraph acc_graph;
+  TGraph cam_graph;
 
   acc_data_file_parser.fill_raw();
   cam_data_file_parser.fill_raw();
@@ -30,6 +34,14 @@ int main(int argc, char *argv[]) {
     cam_graph.AddPoint(cam_data.GetCookedData()[i].T_s, 
                        cam_data.GetCookedData()[i].point.x);
   }
+  
+  c1.Divide(1,2,0,0);
+  c1.cd(1);
+  acc_graph.Draw();
+  c1.cd(2);
+  cam_graph.Draw();
+
+  app.Run();
   
   return 0;
 }
