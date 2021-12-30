@@ -15,7 +15,7 @@ class accelerometer_analizer {
 };
 
 accelerometer_analizer::accelerometer_analizer(data &dat) : m_data(dat) {
-  if(m_data.GetType() != 'a') {
+  if(m_data.GetType() != data::ACCELEROMETER) {
     std::cerr << "Error in analizer constructor: wrong data type" << std::endl;
     exit(1);
   }

@@ -14,7 +14,7 @@ class image_analizer {
 };
 
 image_analizer::image_analizer(data &dat) : m_data(dat) {
-  if(m_data.GetType() != 'i') {
+  if(m_data.GetType() != data::CAMERA) {
     std::cerr << "Error in analizer constructor: wrong data type" << std::endl;
     exit(1);
   }
