@@ -24,7 +24,7 @@ accelerometer_analizer::accelerometer_analizer(data &dat) : m_data(dat) {
 accelerometer_analizer::~accelerometer_analizer() {}
 
 bool accelerometer_analizer::cook() {
-  for(int i = 0; i < m_data.GetRawData().size(); ++i) {
+  for(unsigned int i = 0; i < m_data.GetRawData().size(); ++i) {
     data::analized tmp_analized;
     tmp_analized.T_s = 0;
     tmp_analized.point.x = 0;

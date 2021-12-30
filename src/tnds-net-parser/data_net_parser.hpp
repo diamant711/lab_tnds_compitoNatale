@@ -58,7 +58,7 @@ data_net_parser::data_net_parser(data_type type, UDPframeReceiver &udp) {
 
 data_net_parser::~data_net_parser() {
   m_current_file.close();
-  ::sprintf(m_file_path, "data/%c/metadata", m_data_type, m_count_written_file);
+  ::sprintf(m_file_path, "data/%c/metadata", m_data_type);
   m_current_file.open(m_file_path);
   m_current_file << m_count_written_file + 1;
   m_current_file.close();

@@ -23,14 +23,14 @@ image_analizer::image_analizer(data &dat) : m_data(dat) {
 image_analizer::~image_analizer() {}
 
 bool image_analizer::cooked() {
-  for(int i = 0; i < m_data.GetRawData().size(); ++i){
+  for(unsigned int i = 0; i < m_data.GetRawData().size(); ++i){
     data::analized tmp_analized;
     tmp_analized.point.x = 0;
     tmp_analized.point.y = 0;
     tmp_analized.T_s = 0;
     double bx = 0., by = 0., n = 0.;
-    for(int y = 0; y < m_data.GetRawData()[i].height; ++y){
-      for(int x = 0; x < m_data.GetRawData()[i].width; ++x) {
+    for(unsigned int y = 0; y < m_data.GetRawData()[i].height; ++y){
+      for(unsigned int x = 0; x < m_data.GetRawData()[i].width; ++x) {
         int r = (m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x]
                                               &0xff0000)>>16;
         int g = (m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x]

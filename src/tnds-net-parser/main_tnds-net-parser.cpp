@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   else
     std::cout << "not good" << std::endl;
 
-  for(int i = 0; i < max_frame; ++i) {
+  for(unsigned int i = 0; i < max_frame; ++i) {
     if (acc_net_parser.receive_and_save_frame()){
       std::cout << "Accelerometer frame saved = " << i << std::endl;
     }
