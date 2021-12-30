@@ -24,7 +24,7 @@ accelerometer_analizer::accelerometer_analizer(data &dat) : m_data(dat) {
 accelerometer_analizer::~accelerometer_analizer() {}
 
 bool accelerometer_analizer::cook() {
-  for(int i = 0; i < m_data.GetRawData.size(); ++i) {
+  for(int i = 0; i < m_data.GetRawData().size(); ++i) {
     data::analized tmp_analized;
     tmp_analized.T_s = 0;
     tmp_analized.point.x = 0;
@@ -37,9 +37,9 @@ bool accelerometer_analizer::cook() {
     }
     tmp_analized.T_s = static_cast<double>(m_data.GetRawData()[i].tsec) + 
                        static_cast<double>(m_data.GetRawData()[i].tusec) * 
-                       pow(10,-6);
+                       std::pow(10,-6);
     tmp_analized.point.y = (first_four_byte & 0x0000FFFF);
-    m_data.GetCookedData.push_back(tmp_analized);
+    m_data.GetCookedData().push_back(tmp_analized);
   }
   return true;
 }

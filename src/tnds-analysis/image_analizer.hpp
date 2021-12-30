@@ -1,5 +1,7 @@
 #include "common_type.hpp"
 
+#include <cmath>
+
 class image_analizer {
   public:
     image_analizer(data &);
@@ -20,7 +22,7 @@ image_analizer::image_analizer(data &dat) : m_data(dat) {
 
 image_analizer::~image_analizer() {}
 
-image_analizer::cooked() {
+bool image_analizer::cooked() {
   for(int i = 0; i < m_data.GetRawData().size(); ++i){
     data::analized tmp_analized;
     tmp_analized.point.x = 0;
@@ -29,17 +31,21 @@ image_analizer::cooked() {
     double bx = 0., by = 0., n = 0.;
     for(int y = 0; y < m_data.GetRawData()[i].height; ++y){
       for(int x = 0; x < m_data.GetRawData()[i].width; ++x) {
-        int r = (m_data.GetRawData()[i].frame[y*width + x]&0xff0000)>>16;
-        int g = (m_data.GetRawData()[i].frame[y*width + x]&0xff00)>>8;
-        int b = (m_data.GetRawData()[i].frame[y*width + x]&0xff);
+        int r = (m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x]
+                                              &0xff0000)>>16;
+        int g = (m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x]
+                                              &0xff00)>>8;
+        int b = (m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x]
+                                              &0xff);
         if (r > (g+b/2)+0x20) {
           bx = bx * (n / (n+1.)) + static_cast<double>(x)* (1./(n+1.));
           by = by * (n / (n+1.)) + static_cast<double>(y)* (1./(n+1.));
         }
         else {
           int a = (r+g+b)/10.;
-          m_data.GetRawData()[i].frame[y*width + x] = 0xff000000 | ((a&0xff) << 16) |
-                             ((a&0xff) << 8) | (a&0xff);
+          m_data.GetRawData()[i].frame[y*m_data.GetRawData()[i].width + x] = 
+                                              0xff000000 | ((a&0xff) << 16) |
+                                              ((a&0xff) << 8) | (a&0xff);
         }
       }
     }
@@ -47,7 +53,7 @@ image_analizer::cooked() {
     tmp_analized.point.x = by;
     tmp_analized.T_s = static_cast<double>(m_data.GetRawData()[i].tsec) +
                        static_cast<double>(m_data.GetRawData()[i].tusec) *
-                       pow(10,-6);
+                       std::pow(10,-6);
     m_data.GetCookedData().push_back(tmp_analized);
   }
   return true;
