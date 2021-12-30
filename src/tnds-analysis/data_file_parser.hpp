@@ -61,11 +61,12 @@ bool data_file_parser::fill_raw() {
                                              sizeof(tmp_frame_data.width));
       m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.height), \
                                              sizeof(tmp_frame_data.height));
-      uint32_t bytes;
+      uint32_t bytes; //<--------- !!!!!
       m_current_file.read(reinterpret_cast<char *>(&bytes), sizeof(bytes));
       m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.frame[0]), \
                               tmp_frame_data.width * tmp_frame_data.height *  \
                                              sizeof(tmp_frame_data.frame[0]));     
+      m_data.GetRawData().push_back(tmp_frame_data);
     }
     m_current_file.close();
   }
