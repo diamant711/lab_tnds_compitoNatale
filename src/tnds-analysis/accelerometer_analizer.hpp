@@ -29,14 +29,16 @@ bool accelerometer_analizer::cook() {
     tmp_analized.T_s = 0;
     tmp_analized.point.x = 0;
     tmp_analized.point.y = 0;
+    uint32_t first_four_byte = m_data.GetRawData()[i].frame[0];
+    if(((first_four_byte & 0xFFFF0000) >> 2) == 0x5551) {
+      std::cerr << "Espected identifier 0x5551xxxx. found: "
+                << ((first_four_byte & 0xFFFF0000) >> 2) << std::endl;
+      return false;
+    }
     tmp_analized.T_s = static_cast<double>(m_data.GetRawData()[i].tsec) + 
                        static_cast<double>(m_data.GetRawData()[i].tusec) * 
                        pow(10,-6);
-    uint32_t first_four_byte = m_data.GetRawData()[i].frame[0];
-    if(((first_four_byte & 0xFFFF0000) >> 2) == 0x5551)
-      std::cerr << "Espected identifier 0x5551xxxx. found: "
-                << ((first_four_byte & 0xFFFF0000) >> 2) << std::endl;
-    tm_analized.point.y = (first_four_byte & 0x0000FFFF);
+    tmp_analized.point.y = (first_four_byte & 0x0000FFFF);
     m_data.GetCookedData.push_back(tmp_analized);
   }
   return true;
