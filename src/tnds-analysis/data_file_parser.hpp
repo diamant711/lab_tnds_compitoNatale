@@ -46,12 +46,21 @@ bool data_file_parser::fill_raw() {
     ::sprintf(tmp, "data/%c/%d.fdt", m_data.GetType(), i);
     m_current_file_path = tmp;
     m_current_file.open(m_current_file_path);
+#ifdef DEBUG
+    int n_readed_frame = 0;
+#endif
     while(!m_current_file.eof()){
       uint32_t magic_header = 0;
       while (magic_header != 0xe1e01cca) {
-        m_current_file.read(reinterpret_cast<char *>(&magic_header), 
-                                               sizeof(magic_header));
+        if(m_current_file.eof())
+          break;
+        else
+          m_current_file.read(reinterpret_cast<char *>(&magic_header), 
+                                                 sizeof(magic_header));
       }
+
+      if(m_current_file.eof()) break;
+      
       data::frame_data tmp_frame_data;
       m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.tsec), \
                                              sizeof(tmp_frame_data.tsec));
@@ -61,11 +70,15 @@ bool data_file_parser::fill_raw() {
                                              sizeof(tmp_frame_data.width));
       m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.height), \
                                              sizeof(tmp_frame_data.height));
-      uint32_t bytes; //<--------- !!!!!
-      m_current_file.read(reinterpret_cast<char *>(&bytes), sizeof(bytes));
+      m_current_file.read(reinterpret_cast<char *>(&tmp_frame_data.bytes), \
+                                             sizeof(tmp_frame_data.bytes));
       tmp_frame_data.frame.resize(tmp_frame_data.width * tmp_frame_data.height);
       m_current_file.read(reinterpret_cast<char *>(&(tmp_frame_data.frame[0])), tmp_frame_data.width * tmp_frame_data.height * sizeof(tmp_frame_data.frame[0]));     
       m_data.GetRawData().push_back(tmp_frame_data);
+#ifdef DEBUG
+      ++n_readed_frame;
+      std::cerr << "DEBUG: Readed frame n " << n_readed_frame << std::endl;
+#endif
     }
     m_current_file.close();
   }

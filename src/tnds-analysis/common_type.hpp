@@ -14,6 +14,7 @@ class data {
       uint32_t tusec;
       uint32_t width;
       uint32_t height;
+      uint32_t bytes;
       std::vector<uint32_t> frame;
     } frame_data;
 
