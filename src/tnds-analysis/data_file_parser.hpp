@@ -21,7 +21,7 @@ class data_file_parser {
     bool fill_raw();
    
   private:
-    data m_data;
+    data &m_data;
     const unsigned int max_len_file_name = 20;
     std::string m_current_file_path;
     std::ifstream m_current_file;

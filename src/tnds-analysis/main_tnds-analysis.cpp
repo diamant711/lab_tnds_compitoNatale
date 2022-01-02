@@ -2,7 +2,7 @@
 
   known errors:
    - not use of get_last_byte_len()
-   - runtime error when plotting TGraph
+   - error on the values of time (possible big/little endian reading errors) 
 
 */
 
@@ -53,6 +53,9 @@ int main(int argc, char *argv[]) {
   for(unsigned int i = 0; i < acc_data.GetCookedData().size(); ++i){
     acc_x[i] = acc_data.GetCookedData()[i].T_s;
     acc_y[i] = acc_data.GetCookedData()[i].point.y;
+#ifdef DEBUG
+    std::cerr << "DEBUG: " << i << " - " << acc_x[i] << " - " << acc_y[i] << std::endl;
+#endif 
   }
 
 #ifdef DEBUG
@@ -62,6 +65,9 @@ int main(int argc, char *argv[]) {
   for(unsigned int i = 0; i < cam_data.GetCookedData().size(); ++i){
     cam_x[i] = cam_data.GetCookedData()[i].T_s;
     cam_y[i] = cam_data.GetCookedData()[i].point.x;
+#ifdef DEBUG
+    std::cerr << "DEBUG: " << i << " - " << cam_x[i] << " - " << cam_y[i] << std::endl;
+#endif 
   }
   
 #ifdef DEBUG

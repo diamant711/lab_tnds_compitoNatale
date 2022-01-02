@@ -10,7 +10,7 @@ class image_analizer {
     bool cook();
 
   private:
-    data m_data;
+    data &m_data;
 };
 
 image_analizer::image_analizer(data &dat) : m_data(dat) {
