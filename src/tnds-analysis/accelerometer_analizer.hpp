@@ -33,14 +33,14 @@ bool accelerometer_analizer::cook() {
     
     uint16_t two_bytes[2] = {0,0};
     two_bytes[0] = m_data.GetRawData()[i].frame[0] & 0x0000FFFF;
-    if(two_bytes[0] != 0x5155) break;
-    two_bytes[1] = (m_data.GetRawData()[i].frame[0] & 0xFFFF0000) >> 2;
-    uint8_t AxH = (two_bytes[1] & 0xFF00) >> 1, 
+    if(two_bytes[0] != 0x5155) continue;
+    two_bytes[1] = (m_data.GetRawData()[i].frame[0] & 0xFFFF0000) >> 16;
+    uint8_t AxH = (two_bytes[1] & 0xFF00) >> 8,
             AxL = two_bytes[1] & 0x00FF;
     tmp_analized.T_s = static_cast<double>(m_data.GetRawData()[i].tsec) + 
                        static_cast<double>(m_data.GetRawData()[i].tusec) * 
                        std::pow(10,-6);
-    tmp_analized.point.y = ((AxH << 8) | AxL) / 32768 * 16 * m_g;
+    tmp_analized.point.y = static_cast<double>((AxH << 8) | AxL) / 32768 * 16 * m_g;
     m_data.GetCookedData().push_back(tmp_analized);
   }
   return true;

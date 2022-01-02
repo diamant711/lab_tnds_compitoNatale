@@ -1,8 +1,7 @@
 /*
 
   known errors:
-   - not use of get_last_byte_len()
-   - error on the values of time (possible big/little endian reading errors) 
+   - error on the time values (is increment correct ?)
 
 */
 

@@ -19,8 +19,8 @@ class data {
     } frame_data;
 
     typedef struct Point {
-      unsigned int x;
-      unsigned int y;
+      double x;
+      double y;
     } Point;
     
     typedef struct analized {
