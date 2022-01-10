@@ -27,7 +27,7 @@ all : $(LIB) $(X_FILES) ;
 
 labtnds-analysis : WORKDIR = $(PRJ_DIR)/src/tnds-analysis
 labtnds-analysis : $(SOURCES_analysis) ; \
-	$(LINK.cpp) -Wall -o $@ $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^ -I$(PRJ_DIR)/lib
+	$(LINK.cpp) -Wall -o $@ $(ROOT_INCS) $(ROOT_LIBS) -lASImage -L$(OBJECTS_DIR) $^ -I$(PRJ_DIR)/lib
 
 labtnds-net-parser : WORKDIR = $(PRJ_DIR)/src/tnds-net-parser
 labtnds-net-parser : $(SOURCES_net_parser) $(OBJECTS_DIR)/UDPframebroadcast.o ; \
